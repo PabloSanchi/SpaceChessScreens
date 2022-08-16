@@ -567,27 +567,28 @@ function init() {
         // );
 
         // load star cluster model
-        loader.load(
-            'models/cluster/scene.gltf',
-            function (gltf) {
-                starCluster = gltf.scene;
-                starCluster.position.x += 500;
-                starCluster.position.y -= 1000;
+        
+        // loader.load(
+        //     'models/cluster/scene.gltf',
+        //     function (gltf) {
+        //         starCluster = gltf.scene;
+        //         starCluster.position.x += 500;
+        //         starCluster.position.y -= 1000;
     
-                // add model
-                scene.add(starCluster);
+        //         // add model
+        //         scene.add(starCluster);
 
-                // rotate the package
-                starCluster.rotation.y = Math.PI / 2;
-                starCluster.scale.set(50, 50, 50);
-            },
-            function (xhr) {
-                console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-            },
-            function (error) {
-                console.log('An error happened starCluster');
-            }
-        );
+        //         // rotate the package
+        //         starCluster.rotation.y = Math.PI / 2;
+        //         starCluster.scale.set(50, 50, 50);
+        //     },
+        //     function (xhr) {
+        //         console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+        //     },
+        //     function (error) {
+        //         console.log('An error happened starCluster');
+        //     }
+        // );
 
     } catch (err) {
         console.log('ERROR\n', err)
