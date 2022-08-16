@@ -48,22 +48,8 @@ let initialPiecePos = {};
 /* LOGO HIDE & UNHIDE */
 // query selector get logo and hidebtn
 const logo = document.querySelector('#logo');
-const hidebtn = document.querySelector('#hidebtn');
 const votes = document.querySelector('#votes');
-hidebtn.style.display = 'none';
 votes.style.display = 'none';
-
-// on click hide or unhide logo with display property
-hidebtn.addEventListener('click', () => {
-    if (logo.style.display === 'none') {
-        logo.style.display = 'block';
-        hidebtn.innerHTML = 'Hide';
-    } else {
-        logo.style.display = 'none';
-        hidebtn.innerHTML = 'Show';
-    }
-});
-
 
 /* SOCKET INFORMATION EXCHANGE */
 
@@ -166,9 +152,7 @@ socket.on('start', (superRes) => {
     console.log('max is: ' + maxNum);
     console.log('screen is: ' + screen);
     if(screen == maxNum) {
-        // hidebtn.style.display = 'block';
         logo.style.display = 'block';
-        // hidebtn.innerHTML = 'Hide';    
     }
 
     // start animation
@@ -227,10 +211,8 @@ viewlogos -> show or hide the logos
 socket.on('viewlogos', () => {
     if (logo.style.display === 'none') {
         logo.style.display = 'block';
-        hidebtn.innerHTML = 'Hide';
     } else {
         logo.style.display = 'none';
-        hidebtn.innerHTML = 'Show';
     }
 });
 
