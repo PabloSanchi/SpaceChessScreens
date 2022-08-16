@@ -477,12 +477,6 @@ function init() {
 
                 // all pieces are dead (starting configuration)
                 setTimeout(() => printFen('8/8/8/8/8/8/8/8'), 1000);
-
-                // setTimeout(() => { 
-                //     printFen('rnbqkbnr/pppppppp/8/8/8/P7/1PPPPPPP/RNBQKBNR');
-                //     setTimeout(() => move('a7','a3'),1000);
-                // },1000);
-
             },
             // called while loading is progressing
             function (xhr) {
@@ -560,9 +554,9 @@ function init() {
                 simSpace = gltf.scene;
                 scene.add(simSpace);
 
-                simSpace.position.z = -8000;
-                simSpace.position.x = 3000;
-                // simSpace.scale.set(50, 50, 50);
+                simSpace.scale.set(12, 12, 12);
+                simSpace.position.z = -4000;
+                simSpace.position.x = 1500;
             },
             function (xhr) {
                 console.log((xhr.loaded / xhr.total * 100) + '% loaded');
