@@ -548,46 +548,38 @@ function init() {
         );
 
         // load space sim
-        loader.load(
-            'models/Space/scene.gltf',
-            function (gltf) {
-                simSpace = gltf.scene;
-                scene.add(simSpace);
+        // loader.load(
+        //     'models/Space/scene.gltf',
+        //     function (gltf) {
+        //         simSpace = gltf.scene;
+        //         scene.add(simSpace);
 
-                simSpace.scale.set(12, 12, 12);
-                simSpace.position.z = -4000;
-                simSpace.position.x = 1500;
-            },
-            function (xhr) {
-                console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-            },
-            function (error) {
-                console.log('An error happened simSpace');
-            }
-        );
+        //         simSpace.scale.set(12, 12, 12);
+        //         simSpace.position.z = -4000;
+        //         simSpace.position.x = 1500;
+        //     },
+        //     function (xhr) {
+        //         console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+        //     },
+        //     function (error) {
+        //         console.log('An error happened simSpace');
+        //     }
+        // );
 
         // load star cluster model
         loader.load(
             'models/cluster/scene.gltf',
             function (gltf) {
-
                 starCluster = gltf.scene;
-                // starCluster2 = gltf.scene.clone();
-
                 starCluster.position.x += 500;
-                // starCluster2.position.x -= 500;
                 starCluster.position.y -= 1000;
-                // starCluster2.position.y -= 1000;
-
+    
+                // add model
                 scene.add(starCluster);
-                // scene.add(starCluster2);
 
                 // rotate the package
                 starCluster.rotation.y = Math.PI / 2;
-                // starCluster2.rotation.y = Math.PI / 2;
-
                 starCluster.scale.set(50, 50, 50);
-                // starCluster2.scale.set(50, 50, 50);
             },
             function (xhr) {
                 console.log((xhr.loaded / xhr.total * 100) + '% loaded');
