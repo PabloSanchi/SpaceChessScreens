@@ -597,31 +597,6 @@ function init() {
             }
         );
 
-        // galaxy
-        loader.load(
-            'models/bgModel/scene.gltf',
-            function (gltf) {
-
-                galaxy = gltf.scene;
-                // galaxy.position.y -= 1000;
-                scene.add(galaxy);
-
-                // rotate the package
-                galaxy.rotation.x = Math.PI / 1.5;
-                galaxy.position.x -= 750;
-                galaxy.position.y += 300;
-                galaxy.position.z -= 2000;
-
-                galaxy.scale.set(50, 50, 50);
-            },
-            function (xhr) {
-                console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-            },
-            function (error) {
-                console.log('An error happened galaxy');
-            }
-        );
-
     } catch (err) {
         console.log('ERROR\n', err)
     }
@@ -875,15 +850,6 @@ function animate() {
     views[0].render();
     TWEEN.update();
     animateStars();
-
-    if (galaxy) {
-        // galaxy.rotation.y += 0.001;
-        galaxy.rotation.z += Math.PI / 0.5;
-    }
-
-    // if (simSpace) {
-    //     simSpace.rotation.y += 0.001;
-    // }
 
     if (earth) {
         earth.rotation.y -= 0.0003;
