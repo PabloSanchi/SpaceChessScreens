@@ -572,22 +572,22 @@ function init() {
             function (gltf) {
 
                 starCluster = gltf.scene;
-                starCluster2 = gltf.scene.clone();
+                // starCluster2 = gltf.scene.clone();
 
                 starCluster.position.x += 500;
-                starCluster2.position.x -= 500;
+                // starCluster2.position.x -= 500;
                 starCluster.position.y -= 1000;
-                starCluster2.position.y -= 1000;
+                // starCluster2.position.y -= 1000;
 
                 scene.add(starCluster);
-                scene.add(starCluster2);
+                // scene.add(starCluster2);
 
                 // rotate the package
                 starCluster.rotation.y = Math.PI / 2;
-                starCluster2.rotation.y = Math.PI / 2;
+                // starCluster2.rotation.y = Math.PI / 2;
 
                 starCluster.scale.set(50, 50, 50);
-                starCluster2.scale.set(50, 50, 50);
+                // starCluster2.scale.set(50, 50, 50);
             },
             function (xhr) {
                 console.log((xhr.loaded / xhr.total * 100) + '% loaded');
