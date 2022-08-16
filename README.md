@@ -1,3 +1,8 @@
+[![github-languages-image](https://img.shields.io/github/languages/top/PabloSanchi/SpaceChessScreens.svg?color=red)]()
+[![github-language-count-image](https://img.shields.io/github/languages/count/PabloSanchi/SpaceChessScreens.svg)]()
+[![Issues](https://img.shields.io/github/issues/PabloSanchi/SpaceChessScreens.svg)](https://github.com/PabloSanchi/SpaceChessScreens/issues)
+[![github-repo-size-image](https://img.shields.io/github/repo-size/PabloSanchi/SpaceChessScreens.svg?color=yellow)]()
+
 # 🚀 SPACE CHESS
 
 A Newspace related visualization project in collaboration with Hydra-Space.    
@@ -41,13 +46,13 @@ cd ~
 
 - clone the repository **in the current directory (default directory on terminal)** of the **master** machine with the command:
 ```bash
-git clone https://github.com/PabloSanchi/LiquidGalaxyVisualization
+git clone https://github.com/PabloSanchi/SpaceChessScreens
 ```
 
 - Go to the new folder (github repository) and execute the installation script.
 Use the following commands **(you will have to restart your computer after the installation is done):**
 ```bash
-cd LiquidGalaxyVisualization
+cd SpaceChessScreens
 bash install.sh
 ```
 
@@ -65,7 +70,7 @@ bash install.sh
 ### Launch Space Chess
 
 You must be in the repository directory, 
-Your terminal must look something like this: ` LiquidGalaxyVisualization $`
+Your terminal must look something like this: ` SpaceChessScreens $`
 
 - Execute the launch script, by doing the following:
 ```bash
@@ -93,9 +98,9 @@ If you are experiencing some errors while executing the `open-ches.sh` script, k
 - Stop the server
   - Kill all related running terminals
 - `bash kill-chess.sh`
-  - You must be in the LiquidGalaxyVisualization folder
+  - You must be in the SpaceChessScreens folder
 - `ssh open-ches.sh NUMSCREEN`
-  - You must be in the LiquidGalaxyVisualization folder
+  - You must be in the SpaceChessScreens folder
 
 [3.0]
 If you cannot connect using the rig modal in the web, [renember to ask the owners the `.env` file](#env)
