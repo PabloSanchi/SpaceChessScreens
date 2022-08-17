@@ -2,7 +2,7 @@ import { TWEEN } from './tween.module.min.js';
 
 /* VARIABLE DEFINITION */
 var socket = io({ 'reconnect': false });
-let nScreens, screen, done = false;
+let nScreens, logoScreen, screen, done = false;
 
 let fullWidth = 1, fullHeight = 1;
 let startX = 0, startY = 0;
@@ -152,6 +152,7 @@ socket.on('start', (superRes) => {
     console.log('max is: ' + maxNum);
     console.log('screen is: ' + screen);
     if(screen == maxNum) {
+        logoScreen = maxNum;
         logo.style.display = 'block';
     }
 
@@ -209,6 +210,8 @@ socket.on('demoMove', (data) => {
 viewlogos -> show or hide the logos
 */
 socket.on('viewlogos', () => {
+    if(screen != logoScreen) return;
+    
     if (logo.style.display === 'none') {
         logo.style.display = 'block';
     } else {
