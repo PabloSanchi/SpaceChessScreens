@@ -664,9 +664,9 @@ function move(srcSquare, targetSquare, speed = 700) {
         // if castling
         if (Math.abs(dest[0] - src[0]) == 2) {
             if (dest[0] - src[0] > 0) { // right castling
-                (color == 'w' ? move('H1', 'F1') : move('H8', 'F8'));
+                (color == 'w' ? move('H1', 'F1', speed) : move('H8', 'F8', speed));
             } else { // left castling
-                (color == 'w' ? move('A1', 'D1') : move('A8', 'D8'));
+                (color == 'w' ? move('A1', 'D1', speed) : move('A8', 'D8', speed));
             }
         }
     }
@@ -1032,3 +1032,26 @@ function demoMode() {
         if(pointer < demo.length-1 && !pause) requestAnimationFrame(demoMode);
     }, animationSpeed);
 }
+
+
+socket.on('moveDemo', (data) => {
+    console.log('moveDemo: ', data.move);
+
+    demo = data.move;
+    move(demo.substring(0,2), demo.substring(2,4), data.speed);
+});
+
+socket.on('moveDemoBack', (data) => {
+    demo = data.content;
+    pointer = data.pointer;
+    animationSpeed = data.animationSpeed;
+
+    printFen('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR');
+    for(let i = 0; i < pointer; i++) {
+        move(demo[i].substring(0,2), demo[i].substring(2,4), animationSpeed);
+    }
+});
+
+socket.on('startDemo', () => {
+    printFen('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR');
+})

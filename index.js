@@ -313,6 +313,26 @@ io.on('connect', socket => {
         socket.to('screen').emit('displayVotes', data);
     });
 
+
+    // demo plays
+
+    socket.on('startDemo', () => {
+        console.log('starting demo...');
+        io.to('screen').emit('startDemo');
+    });
+
+    socket.on('demoMove', (data) => {
+        console.log('move demo');
+        
+        socket.to('screen').emit('moveDemo', data);
+    });
+
+    socket.on('demoBack', (data) => {
+        socket.to('screen').emit('moveDemoBack', data);
+    });
+
+    // ----------
+
 });
 
 
