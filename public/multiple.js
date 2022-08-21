@@ -1049,6 +1049,8 @@ socket.on('moveDemoBack', (data) => {
     printFen('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR');
     for(let i = 0; i < pointer; i++) {
         move(demo[i].substring(0,2), demo[i].substring(2,4), animationSpeed);
+        // if(i == pointer-1)
+        // else move(demo[i].substring(0,2), demo[i].substring(2,4), 0);
     }
 });
 
