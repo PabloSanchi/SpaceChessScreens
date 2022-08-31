@@ -94,12 +94,12 @@ NUMSCREEN is the number of screens that you want to use.***
 If something went wrong during the installation, the main cause is that you do not satisfy the requirements. Please make sure to check the [requirement area](#req).
 
 [2.0]
-If you are experiencing some errors while executing the `open-ches.sh` script, kill it and re-start it.
+If you are experiencing some errors while executing the `open-chess.sh` script, kill it and re-start it.
 - Stop the server
   - Kill all related running terminals
 - `bash kill-chess.sh`
   - You must be in the SpaceChessScreens folder
-- `ssh open-ches.sh NUMSCREEN`
+- `ssh open-chess.sh NUMSCREEN`
   - You must be in the SpaceChessScreens folder
 
 [3.0]
