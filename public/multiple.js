@@ -52,7 +52,10 @@ const votes = document.querySelector('#votes');
 votes.style.display = 'none';
 
 /* SOCKET INFORMATION EXCHANGE */
-
+/**
+ * @description display the votes on the second screen only with the specified content
+ * @param {Object} data
+ */
 socket.on('displayVotes', (data) => {
     console.log(data);
     if (screen == 2) {
@@ -70,7 +73,9 @@ socket.on('displayVotes', (data) => {
     }
 });
 
-
+/**
+ * @DEPRECATED
+ */
 socket.on('updateScreen', (coords) => {
     if (screen == 1) return; // do not update the master screen
 
@@ -78,10 +83,10 @@ socket.on('updateScreen', (coords) => {
 });
 
 
-/*
-update: on first connection, retrieve data, screen number
-    and send essential data (to the server) like the size (screen id, screen width, screen height)
-*/
+/**
+ * @description update: on first connection, retrieve data, screen number
+ *  and send essential data (to the server) like the size (screen id, screen width, screen height)
+ */
 socket.on('update', (screenData) => {
     if (done) return;
     document.title = screenData.id;
@@ -99,14 +104,14 @@ socket.on('update', (screenData) => {
     });
 });
 
-/*
-Start visulization when the server gives the signal to do so
-    - Retrieve: - super-resuloution (the total width of the screens)
-                - Calculate the portion to the screen
-    
-    @param {Object} superRes, contains {width, height, child(Object)}
-        child (Object): {1: width, 2: width, 3: width, ..., n: width}
-*/
+/**
+ * @description Start visulization when the server gives the signal to do so
+ *     - Retrieve: - super-resuloution (the total width of the screens)
+ *                  - Calculate the portion to the screen
+ *     
+ * @param {Object} superRes, contains {width, height, child(Object)}
+ *        child (Object): {1: width, 2: width, 3: width, ..., n: width}
+ */
 socket.on('start', (superRes) => {
     console.log('screen' + screen + ' ready');
 
@@ -162,7 +167,9 @@ socket.on('start', (superRes) => {
     animate();
 });
 
-/*
+/**
+ * @description update the fen taking care of the requested method
+ * @param {Object} data : {status: val, move: val}
 */
 socket.on('updateFen', (fen) => {
     if (fen.move == '') printFen(fen.status);
@@ -176,9 +183,9 @@ socket.on('updateFen', (fen) => {
     }
 });
 
-/*
-UpdateMouse -> update mouse position, only works for slaves
-@param {Object} mouse, mouse {mousex: value, mousey: value}
+/**
+ * @description UpdateMouse -> update mouse position, only works for slaves
+ * @param {Object} mouse, mouse {mousex: value, mousey: value}
 */
 socket.on('updateMouse', (mouse) => {
     if (screen == 1) return;
@@ -188,10 +195,10 @@ socket.on('updateMouse', (mouse) => {
     mouseY = mouse.mousey;
 });
 
-/*
-UpdateMouse -> update camera position z, only works for slaves
-@param {Object} pos: {z: value}
-*/
+/**
+ * @description UpdateMouse -> update camera position z, only works for slaves
+ * @param {Object} pos: {z: value}
+ */
 socket.on('updatePosScreen', (pos) => {
     if (screen == 1) return;
 
@@ -199,16 +206,17 @@ socket.on('updatePosScreen', (pos) => {
     camera.position.z = pos.z;
 });
 
-/* demoMove -> apple the move recieved from the server 
-@param {Array} move, array of strings [srcSquare, targetSquare]
+/** 
+ * @description demoMove -> apple the move recieved from the server 
+ * @param {Array} move, array of strings [srcSquare, targetSquare]
 */
 socket.on('demoMove', (data) => {
     setTimeout(() => { move(data.main[0], data.main[1]) }, data.index * 1000);
 });
 
-/*
-viewlogos -> show or hide the logos
-*/
+/**
+ * @description viewlogos -> show or hide the logos
+ */
 socket.on('viewlogos', () => {
     if(screen != logoScreen) return;
     
@@ -220,10 +228,18 @@ socket.on('viewlogos', () => {
 });
 
 
+/**
+ * @DEPRECATED : will be removed in a future release
+ * @description create the event listener on windows load
+ */
 window.onload = function () {
     document.addEventListener('keydown', onDocumentKeyDown, false);
 }
 
+/**
+ * @DEPRECATED : will be removed in a future release
+ * @description move the camera with a, w, s, d keys
+ */
 const onDocumentKeyDown = (event) => {
 
     if (screen != 1) return;
@@ -245,9 +261,10 @@ const onDocumentKeyDown = (event) => {
     });
 }
 
-/*
-setView -> set the camera view (white perspective, black perspective or global view);
-*/
+
+/**
+ * @description setView -> set the camera view (white perspective, black perspective or global view);
+ */
 socket.on('setView', (data) => {
     if (data.where == 'white') {
         showChess(1000);
@@ -275,9 +292,9 @@ socket.on('setView', (data) => {
     }
 });
 
-/*
-goEarth -> move the camera to the earth view
-*/
+/**
+ * @description goEarth -> move the camera to the earth view
+ */
 socket.on('goEarth', () => {
     var position = new THREE.Vector3().copy(camera.position);
 
@@ -294,13 +311,16 @@ socket.on('goEarth', () => {
         .start();
 });
 
-/*
-goChess -> move the camera to the chess view
-*/
+/**
+ * @description goChess -> move the camera to the chess view
+ */
 socket.on('goChess', () => {
     goChess();
 });
 
+/**
+ * @description move the camera to the chess position 2000 millis
+ */
 function goChess() {
     var position = new THREE.Vector3().copy(camera.position);
 
@@ -317,6 +337,10 @@ function goChess() {
         .start();
 }
 
+/**
+ * @description move the camera to the chess position in the specified amount of time
+ * @param {Number} time : default value 2000
+ */
 function showChess(time = 2000) {
     var position = new THREE.Vector3().copy(camera.position);
 
@@ -333,9 +357,9 @@ function showChess(time = 2000) {
         .start();
 }
 
-/*
-controllerUpdate -> move the camera
-*/
+/**
+ * @description controllerUpdate -> move the camera
+ */
 socket.on('controllerUpdate', (data) => {
     camera.position.x += data.x;
     camera.position.z += data.z;
@@ -356,17 +380,16 @@ let stars = [];
 
 
 /**
-View - set the camera offset according to the screen dimensions and position (...5,3,1,2,4...)
-
-@param {Canvas} canvas
-@param {Number} fullWidth
-@param {Number} fullHeight
-@param {Number} viewX
-@param {Number} viewY
-@param {Number} viewWidth
-@param {Number} viewHeight
-
-*/
+ * @description View - set the camera offset according to the screen dimensions and position (...5,3,1,2,4...)
+ * This work for every 3d visualization in the liquid galaxy cluster (general purpose)
+ * @param {Canvas} canvas
+ * @param {Number} fullWidth
+ * @param {Number} fullHeight
+ * @param {Number} viewX
+ * @param {Number} viewY
+ * @param {Number} viewWidth
+ * @param {Number} viewHeight
+ */
 function View(canvas, fullWidth, fullHeight, viewX, viewY, viewWidth, viewHeight) {
 
     canvas.width = viewWidth * window.devicePixelRatio;
@@ -398,9 +421,9 @@ function View(canvas, fullWidth, fullHeight, viewX, viewY, viewWidth, viewHeight
 }
 
 
-/*
-init -> initialize the scene and renderer (printing the chessboard, start position by default)
-*/
+/**
+ * @description init -> initialize the scene and renderer (printing the chessboard, start position by default)
+ */
 function init() {
 
     const canvas1 = document.getElementById('canvas1');
@@ -550,49 +573,6 @@ function init() {
             }
         );
 
-        // load space sim
-        // loader.load(
-        //     'models/Space/scene.gltf',
-        //     function (gltf) {
-        //         simSpace = gltf.scene;
-        //         scene.add(simSpace);
-
-        //         simSpace.scale.set(12, 12, 12);
-        //         simSpace.position.z = -4000;
-        //         simSpace.position.x = 1500;
-        //     },
-        //     function (xhr) {
-        //         console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-        //     },
-        //     function (error) {
-        //         console.log('An error happened simSpace');
-        //     }
-        // );
-
-        // load star cluster model
-        
-        // loader.load(
-        //     'models/cluster/scene.gltf',
-        //     function (gltf) {
-        //         starCluster = gltf.scene;
-        //         starCluster.position.x += 500;
-        //         starCluster.position.y -= 1000;
-    
-        //         // add model
-        //         scene.add(starCluster);
-
-        //         // rotate the package
-        //         starCluster.rotation.y = Math.PI / 2;
-        //         starCluster.scale.set(50, 50, 50);
-        //     },
-        //     function (xhr) {
-        //         console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-        //     },
-        //     function (error) {
-        //         console.log('An error happened starCluster');
-        //     }
-        // );
-
     } catch (err) {
         console.log('ERROR\n', err)
     }
@@ -603,9 +583,9 @@ function init() {
     // document.addEventListener('mousemove', onDocumentMouseMove);
 }
 
-/*
-onDocumentMouseMove -> update the mouse position and emit it to the other screens
-*/
+/**
+ * @description onDocumentMouseMove -> update the mouse position and emit it to the other screens
+ */
 function onDocumentMouseMove(event) {
     // only the master can move
     if (screen != 1) return;
@@ -620,7 +600,7 @@ function onDocumentMouseMove(event) {
 }
 
 /**
- * move -> move the piece with its consecuneces
+ * @description move -> move the piece with its consecuneces
  * 
  * @param {String} srcSquare 
  * @param {String} targetSquare 
@@ -676,7 +656,7 @@ function move(srcSquare, targetSquare, speed = 700) {
 }
 
 /**
- * setPiecePos -> set the position of a piece in the visualization and in the status board
+ * @description setPiecePos -> set the position of a piece in the visualization and in the status board
  * 
  * @param {String} piece 
  * @param {String} type 
@@ -708,9 +688,9 @@ function setPiecePos(piece, type, sx, sy, i, j, color) {
 }
 
 /**
-printFen -> print the chessboard with the given fen string
-@param {String} fen, Forsyth–Edwards Notation
-*/
+ * @description printFen -> print the chessboard with the given fen string
+ * @param {String} fen, Forsyth–Edwards Notation
+ */
 function printFen(fen) {
     // rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR
 
@@ -809,7 +789,7 @@ function printFen(fen) {
 }
 
 /**
-setDeadPosition -> set the position of a dead piece in the visualization
+@description setDeadPosition -> set the position of a dead piece in the visualization
 @param {String} piece, the piece type (r, n, b, q, k, p)
 @param {Number} type, number of the piece, examaple: p1, p2, ... ,p16, r1, r2
 @param {String} color, the color of the piece (w, b)
@@ -833,14 +813,16 @@ function setDeadPosition(piece, type, color) {
     }
 }
 
-
+/**
+ * @description refresh the earth position in every screen
+ */
 socket.on('refreshEarthScreen', (coord) => {
     earth.rotation.y = coord.y;
 });
 
-/*
-animate -> animate the scene
-*/
+/**
+ * @description animate -> animate the scene
+ */
 function animate() {
 
     views[0].render();
@@ -905,9 +887,9 @@ function animate() {
     requestAnimationFrame(animate);
 }
 
-/*
-addSpehere -> add spheres (starts) to the scene
-*/
+/**
+ * @description addSpehere -> add spheres (starts) to the scene
+ */
 function addSphere() {
 
     // The loop will move from z position of -1000 to z position 1000, adding a random particle at each position. 
@@ -928,9 +910,9 @@ function addSphere() {
     }
 }
 
-/*
-animateStars -> animate the stars, moving starts
-*/
+/**
+ * @description animateStars -> animate the stars, moving starts
+ */
 function animateStars() {
     let star;
     // loop through each star
@@ -968,7 +950,8 @@ socket.on('startDemo', (data) => {
 
 
 /**
- * forward -> move forwards in the demo
+ * @DEPRECATED
+ * @description forward -> move forwards in the demo
  */
 socket.on('forward', () => {
     if(demo.length == 0) return;
@@ -980,7 +963,8 @@ socket.on('forward', () => {
 });
 
 /**
- * backward -> move backwards in the demo
+ * @DEPRECATED
+ * @description backward -> move backwards in the demo
  */
 socket.on('backward', () => {
     if(demo.length == 0) return;
@@ -995,14 +979,14 @@ socket.on('backward', () => {
 });
 
 /**
- * xVel -> set demo speed
+ * @description xVel -> set demo speed
  */
 socket.on('xVel', (data) => {
     animationSpeed = data.speed;
 });
 
 /**
- * playpause -> play/pause demo
+ * @description playpause -> play/pause demo
  */
 socket.on('playpause', () => {
     if(demo.length == 0) return;
@@ -1011,18 +995,25 @@ socket.on('playpause', () => {
     if(!pause) demoMode();
 });
 
+/**
+ * @description reset all values for the demo
+ */
+
 socket.on('resetAll', () => {
     console.log('reseting');
     pause = true; animationSpeed = 700; pointer = 0; demo = [];
     setTimeout(() => {printFen('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR')}, 1255);
 });
 
+/**
+ * @description stop the demo and reset the used variables
+ */
 socket.on('killDemo', () => {
     pause = true; animationSpeed = 700; pointer = 0; demo = [];
 });
 
 /**
- * demoMode -> play the demo
+ * @description demoMode -> play the demo
  */
 function demoMode() {
     move(demo[pointer].substring(0,2), demo[pointer].substring(2,4), animationSpeed);
@@ -1033,7 +1024,9 @@ function demoMode() {
     }, animationSpeed);
 }
 
-
+/**
+ * @description apply the move to the 3d chessboard
+ */
 socket.on('moveDemo', (data) => {
     console.log('moveDemo: ', data.move);
 
@@ -1041,6 +1034,9 @@ socket.on('moveDemo', (data) => {
     move(demo.substring(0,2), demo.substring(2,4), data.speed);
 });
 
+/**
+ * @description undo the last movement
+ */
 socket.on('moveDemoBack', (data) => {
     demo = data.content;
     pointer = data.pointer;
@@ -1054,6 +1050,9 @@ socket.on('moveDemoBack', (data) => {
     }
 });
 
+/**
+ * @description reset the status of the chessboard
+ */
 socket.on('startDemo', () => {
     printFen('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR');
 })
