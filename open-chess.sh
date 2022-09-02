@@ -1,10 +1,9 @@
 #!/bin/bash
 . ${HOME}/etc/shell.conf
 
-gnome-terminal -- npm start $1
-# $1 = screens
-# $2 = url
-# gnome-terminal -- npm start $1 $2
+auxVar=( $LG_FRAMES )
+len=${#auxVar[@]}
+gnome-terminal -- npm start ${len}
 
 sleep 5
 
