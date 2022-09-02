@@ -78,13 +78,13 @@ Your terminal must look something like this: ` SpaceChessScreens $`
 
 - Execute the launch script, by doing the following:
 ```bash
-bash open-chess.sh NUMSCREEN
+bash open-chess.sh
 ```
 
-***WARNING ⚠️:
+<!-- ***WARNING ⚠️:
 NUMSCREEN is the number of screens that you want to use.***
 
-***The deafult value is 5. Make sure to set it properly according to your rig setup.***
+***The deafult value is 5. Make sure to set it properly according to your rig setup.*** -->
 
 
 ## 🆘 Troubleshooting
@@ -103,7 +103,7 @@ If you are experiencing some errors while executing the `open-chess.sh` script, 
   - Kill all related running terminals
 - `bash kill-chess.sh`
   - You must be in the SpaceChessScreens folder
-- `ssh open-chess.sh NUMSCREEN`
+- `ssh open-chess.sh`
   - You must be in the SpaceChessScreens folder
 
 [3.0]
