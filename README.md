@@ -3,6 +3,10 @@
 [![Issues](https://img.shields.io/github/issues/PabloSanchi/SpaceChessScreens.svg)](https://github.com/PabloSanchi/SpaceChessScreens/issues)
 [![github-repo-size-image](https://img.shields.io/github/repo-size/PabloSanchi/SpaceChessScreens.svg?color=yellow)]()
 
+# Disclaimer
+This is only a brief guide. the following link has the entire documentation of the project.
+[Full documentation](./assets/Documentation.pdf)
+
 # 🚀 SPACE CHESS
 
 A Newspace related visualization project in collaboration with Hydra-Space.    
@@ -133,3 +137,4 @@ http://192.168.0.11:8120/controller
 <p align="center">
 <img src="./assets/lgrigImage.png" width="70%">
 </p>
+
