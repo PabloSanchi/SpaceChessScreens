@@ -131,6 +131,6 @@ http://192.168.0.11:8120/controller
 
 ## 📺 Final view (3 Screen example)
 <p align="center">
-<img src="./assets/lgrigImage.png" width="70%">
+<img src="./assets/finalview.png" width="100%">
 </p>
 
