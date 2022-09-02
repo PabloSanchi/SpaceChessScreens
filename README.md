@@ -3,7 +3,7 @@
 [![Issues](https://img.shields.io/github/issues/PabloSanchi/SpaceChessScreens.svg)](https://github.com/PabloSanchi/SpaceChessScreens/issues)
 [![github-repo-size-image](https://img.shields.io/github/repo-size/PabloSanchi/SpaceChessScreens.svg?color=yellow)]()
 
-# Disclaimer
+# IMPORTANT NOTE
 This is only a brief guide. the following link has the entire documentation of the project.
 [Full documentation](./assets/Documentation.pdf)
 
