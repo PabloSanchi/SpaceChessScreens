@@ -114,19 +114,26 @@ io.on('connect', socket => {
         socket.join('screen');
     }
 
-    // if users leaves, then notify
+    
+    /**
+     * @description if users leaves, then notify
+     */
     socket.on('quit', () => {
         console.log('user left');
     });
 
-    // send screen id to the new screen (config)
+    /**
+     * @description send screen id to the new screen (config)
+     */
     if (!(socket.handshake.query.mobile == 'true') && !(socket.handshake.query.controller == 'true')) {
         io.to(socket.id).emit('update', {
             id: screenNumber
         });
     }
 
-    // get window size data of each screen
+    /**
+     * @description get window size data of each screen
+     */
     socket.on('windowSize', (data) => {
         superRes[data.id] = data.width;
         activeScreens++;
@@ -159,24 +166,35 @@ io.on('connect', socket => {
         }
     });
 
-    // recieve coordinates from the master
+    /**
+     * @DEPRECATED : will be removed soon!
+     * @description transmit master mouse event
+     */
     socket.on('updateScreens', (mouse) => {
         io.to('screen').emit('updateMouse', mouse);
     });
 
+    /**
+     * @description tell the screen to move the camera the specified amount
+     * @param {Object} data
+     */
     socket.on('updatePos', (pos) => {
         io.to('screen').emit('updatePosScreen', pos);
     });
 
+    /**
+     * @description tell the screen to change the view to de specified coordinates
+     * @param {Object} data
+     */
     socket.on('updateView', (data) => {
         io.to('screen').emit('setView', data);
     });
 
-    /*
-        newStatus - recieve the status and move from the client
-                    and send the move to the screens
-        
-        @param {Object} data; contains the status (string) and the move (string)
+    /**
+    * @description newStatus - recieve the status and move from the client
+    *               and send the move to the screens
+    *    
+    * @param {Object} data; contains the status (string) and the move (string)
     */
     socket.on('newStatus', (data) => {
         okDemo = false;
@@ -189,11 +207,11 @@ io.on('connect', socket => {
         });
     });
 
-    /*
-    currentBoard - recieve the current status from the client
-                and send the status to the screens
-    
-    @param {Object} data; contains the status (string)
+    /**
+    * @description currentBoard - recieve the current status from the client
+    *            and send the status to the screens
+    * 
+    * @param {Object} data; contains the status (string)
     */
     socket.on('currentBoard', (data) => {
         okDemo = false;
@@ -205,19 +223,19 @@ io.on('connect', socket => {
         });
     });
 
-    /*
-    controllerMove -> use the device or proper controller to move around the screens
-    @param {Object} data; X and Z coordinates
-    */
+    /**
+    * @description controllerMove -> use the device or proper controller to move around the screens
+    * @param {Object} data; X and Z coordinates
+     */
     socket.on('controllerMove', (data) => {
         io.to('screen').emit('controllerUpdate', data);
     });
 
-    /*
-    showDemo, send the screen a chess complete game
-    to show how to game works
-    @param {Object} data; contains all the moves
-    */
+    /**
+    * @DEPRECATED : will be removed soon!
+    * @description showDemo, send the screen a chess complete game to show how to game works
+    * @param {Object} data; contains all the moves
+     */
     socket.on('showDemo', () => {
         okDemo = true;
         console.log('starting demo...');
@@ -242,109 +260,164 @@ io.on('connect', socket => {
 
     });
 
-    // showEarth -> tell the screens to show the earth
+    /**
+     * @description showEarth -> tell the screens to show the earth view
+     */
     socket.on('showEarth', () => {
         io.to('screen').emit('goEarth');
     });
 
-    // showChess ->  tell the screens to show the chess
+
+    /**
+     * @description showChess ->  tell the screens to show the chess view
+     */
     socket.on('showChess', () => {
         io.to('screen').emit('goChess');
     });
 
-    // refreshEarthServer -> syncronize the earth position between the screens
+    /**
+     * @description refreshEarthServer -> syncronize the earth position between the screens
+     */
     socket.on('refreshEarthServer', (coord) => {
         io.to('screen').emit('refreshEarthScreen', coord);
     });
 
-    // poweroff lg rig
+    /**
+     * @description poweroff the Liquid Galaxy Cluster
+     */
     socket.on('poweroff', () => {
+        console.log('shuting down');
         spawn('lg-poweroff');
     })
 
-    // reboot lg rig
+    /**
+     * @description reboot the Liquid Galaxy Cluster
+     */
     socket.on('reboot', () => {
+        console.log('rebooting...');
         spawn('lg-reboot');
     })
 
-    // hide logos from screens
+    /**
+     * @description reboot the Liquid Galaxy Cluster
+     */
+    socket.on('relaunch', () => {
+        console.log('relaunching...');
+        spawn('lg-relaunch');
+    })  
+
+    /**
+     * @description tell the screens to show/hide the logos/sponsors
+     */
     socket.on('hideLogos', () => {
         console.log('hiding/showing logos');
         io.to('screen').emit('viewlogos');
     });
 
-    // config and start demo
+    /**
+     * @description send the screen the moves array
+     * @param {Object} data: data.moves contains the array with the moves
+     */
     socket.on('demoContent', (data) => {
         console.log('starting demo...');
         io.to('screen').emit('startDemo', data);
     });
 
-    // pause/play demo
+    /**
+     * @description tell the screens to play/pause the demo
+     */
     socket.on('playstop', () => {
         io.to('screen').emit('playpause');
     });
 
     // set demo speed
+    /**
+     * @description tell the screens to change the demo speed
+     * @param {Object} data: contains the speed value to set
+     */
     socket.on('demoSpeed', (data) => {
         io.to('screen').emit('xVel', data);
     });
 
-    // forward demo
+    /**
+     * @description tell the screens to move the next movement
+     */
     socket.on('demoForward', () => {
         io.to('screen').emit('forward');
     });
 
-    // backward demo
+    /**
+     * @description tell the screens to go undo the last move
+     */
     socket.on('demoBackward', () => {
         io.to('screen').emit('backward');
     });
 
+    /**
+     * @description tell the screens to reset everything
+     */
     socket.on('killAll', () => {
         console.log('reseting...');
         socket.to('screen').emit('resetAll');
     });
 
+    /**
+     * @description tell the screens to kill the ongoing demo
+     */
     socket.on('demoKill', () => {
         socket.to('screen').emit('killDemo');
     });
 
+    /**
+     * @description tell the screens to show/hide the votes
+     * @param {Object} data: player's votes
+     */
     socket.on('showVotes', (data) => {
         console.log('votes recieved', data);
         socket.to('screen').emit('displayVotes', data);
     });
 
 
-    // demo plays
+    // DEMO PLAYS SOCKET EVENTS
 
+    /**
+     * @description start demo event
+     */
     socket.on('startDemo', () => {
         console.log('starting demo...');
         io.to('screen').emit('startDemo');
     });
 
+    /**
+     * @description recieve a move from the controller and send the order to the screens
+     */
     socket.on('demoMove', (data) => {
         console.log('move demo');
         
         socket.to('screen').emit('moveDemo', data);
     });
-
+    
+    /**
+     * @description recieve backward call from the mobile and send the order to the screens
+     */
     socket.on('demoBack', (data) => {
         socket.to('screen').emit('moveDemoBack', data);
     });
 
-    // ----------
+    // ------------------------
 
 });
 
 
-/*
-launch -> launch tunnel between the localhost and internet
-    and save the url in the database if possible
+/**
+    @description launch -> launch tunnel between the localhost and internet
+        and save the url in the database if possible
 */
 function launch() {
     // Create a child process
     child = spawn('ssh', ['-o', 'TCPKeepAlive=yes', '-R', '80:localhost:8120', 'nokey@localhost.run']);
 
-    // Listen for output
+    // get output
     child.stdout.on('data',
         function (data) {
             // get the provided url
@@ -364,14 +437,19 @@ function launch() {
                 });
             }
         });
-
+    
+    // display errors
     child.stderr.on('data', (data) => {console.log(data.toString())});
 
+    // display command termination
     child.on('close', function (code) {
         console.log('child process killed');
     });
 }
 
+/**
+ * @description Try top initialize firebase
+ */
 try {
     const firebaseConfig = {
         apiKey: process.env.APIKEY,
@@ -390,10 +468,10 @@ try {
     hasFirebase = false;
 }
 
-// keep alive url by fetching it every 10 seconds
-
+// launch IP on start
 setTimeout(() => {launch()}, 1000);
 
+// keep alive url by fetching it every 10 seconds
 setTimeout(() => {
     setInterval(() => {
         fetch(url, {
@@ -411,6 +489,7 @@ setTimeout(() => {
     }, 10000);
 }, 15000);
 
+// start server on port 8120
 http.listen(port, () => {
     console.log(`Listening:\nhttp://localhost:${port}`);
 });
