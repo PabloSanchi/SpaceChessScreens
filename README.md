@@ -103,7 +103,7 @@ If you are experiencing some errors while executing the `open-chess.sh` script, 
   - Kill all related running terminals
 - `bash kill-chess.sh`
   - You must be in the SpaceChessScreens folder
-- `ssh open-chess.sh`
+- `bash open-chess.sh`
   - You must be in the SpaceChessScreens folder
 
 [3.0]
