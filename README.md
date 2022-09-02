@@ -4,8 +4,8 @@
 [![github-repo-size-image](https://img.shields.io/github/repo-size/PabloSanchi/SpaceChessScreens.svg?color=yellow)]()
 
 # IMPORTANT NOTE
-This is only a brief guide. the following link has the entire documentation of the project.
-[Full documentation](./assets/Documentation.pdf)
+This is only a brief description and installation guide.<br>
+[Full project documentation here!](./assets/Documentation.pdf)
 
 # 🚀 SPACE CHESS
 
@@ -13,11 +13,11 @@ A Newspace related visualization project in collaboration with Hydra-Space.
 The basic idea is to use the Liquid Galaxy cluster as a visualizer of a world chess game that will happen with people around the world and through satellite communications, a world&apos;s first !!!
 
 Two teams, the Earth (🌎)(you) and the Space (🛰️) (a strong AI) <br/>
-Every day the Earth makes one move (at least), the most common move between you all, so play as a community and
+Every day the Earth makes one move (at least), the most common move among you all, so play as a community and
 not as an individual.
 
 Once the Earth has made the move, wait for the Space.
-The satellite may take a while to make its move, so you may not see it in hours, so be patient.
+The satellite may take a while to make its move, so you may not see it in hours, be patient.
 
 <p align="center">
 <img src="./assets/Spl.png" width="70%">
@@ -31,9 +31,9 @@ The satellite may take a while to make its move, so you may not see it in hours,
 ```bash
 node -v
 ```
--  The output should look someting like `v16.*.*`, at least you need version `v14.*.*`, if this is not the case it may not work, if not, try upgrading to the version 16.
+-  The output should look something like `v16.*.*`, at least you need version `v14.*.*`, if this is not the case it may not work, if not, try upgrading to version 16.
 
-3. Install pm2 on master machine. Run command:
+1. Install pm2 on the master machine. Run command:
 ```bash
 sudo npm i -g pm2
 ```
@@ -48,12 +48,12 @@ sudo npm i -g pm2
 cd ~
 ```
 
-- clone the repository **in the current directory (default directory on terminal)** of the **master** machine with the command:
+- clone the repository **in the current directory (default directory on the terminal)** of the **master** machine with the command:
 ```bash
 git clone https://github.com/PabloSanchi/SpaceChessScreens
 ```
 
-- Go to the new folder (github repository) and execute the installation script.
+- Go to the new folder (GitHub repository) and execute the installation script.
 Use the following commands **(you will have to restart your computer after the installation is done):**
 ```bash
 cd SpaceChessScreens
@@ -67,7 +67,7 @@ bash install.sh
     ```
   - You must enter `yes` when asked `Are you sure you want to continue connecting (yes/no)?`
 
-- <a name="env" ></a> Ask the owners for the `.env` file, otherwise the connection troughout the IP wont work.
+- <a name="env" ></a> Ask the owners for the `.env` file, otherwise the connection throughout the IP wont work.
 
 - INSTALLATION FINISHED!
 
@@ -98,7 +98,7 @@ NUMSCREEN is the number of screens that you want to use.***
 If something went wrong during the installation, the main cause is that you do not satisfy the requirements. Please make sure to check the [requirement area](#req).
 
 [2.0]
-If you are experiencing some errors while executing the `open-chess.sh` script, kill it and re-start it.
+If you are experiencing some errors while executing the `open-chess.sh` script, kill it and restart it.
 - Stop the server
   - Kill all related running terminals
 - `bash kill-chess.sh`
@@ -107,7 +107,7 @@ If you are experiencing some errors while executing the `open-chess.sh` script, 
   - You must be in the SpaceChessScreens folder
 
 [3.0]
-If you cannot connect using the rig modal in the web, [renember to ask the owners the `.env` file](#env)
+If you cannot connect using the rig modal on the web, [renember to ask the owners for the `.env` file](#env)
 
 
 ## Keyboard Controls (test only)
