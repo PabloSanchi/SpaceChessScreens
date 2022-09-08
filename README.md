@@ -76,12 +76,12 @@ bash install.sh
 You must be in the repository directory, 
 Your terminal must look something like this: ` SpaceChessScreens $`
 
-### Option 1
+#### Option 1
 - Execute the launch script, by doing the following:
 ```bash
 bash open-chess.sh
 ```
-### Option 2 (If option 1 does not work)
+#### Option 2 (If option 1 does not work)
 - Execute the auxiliary launch script, by doing the following:
 ```bash
 bash open-chess-aux.sh NUMSCREEN
