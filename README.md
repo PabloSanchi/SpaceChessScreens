@@ -76,10 +76,19 @@ bash install.sh
 You must be in the repository directory, 
 Your terminal must look something like this: ` SpaceChessScreens $`
 
+### Option 1
 - Execute the launch script, by doing the following:
 ```bash
 bash open-chess.sh
 ```
+### Option 2 (If option 1 does not work)
+- Execute the auxiliary launch script, by doing the following:
+```bash
+bash open-chess-aux.sh NUMSCREEN
+```
+*NOTE: NUMSCREEN is the number of screens that your cluster has.*
+*The default value is 5*
+
 
 <!-- ***WARNING ⚠️:
 NUMSCREEN is the number of screens that you want to use.***
