@@ -3,7 +3,7 @@
 
 auxVar=( $LG_FRAMES )
 len=${#auxVar[@]}
-gnome-terminal -- npm start ${len}
+gnome-terminal -- npm start ${len} $1
 
 sleep 5
 
