@@ -419,8 +419,10 @@ function launch() {
     // child = spawn('ngrok', ['http', '8120', '--authtoken=2FRAcOboMuYRMzpSUy1kAkPVC70_6J3Dzfvoi4h3no3vMaR4q']);
     // child = spawn('ngrok', ['http', '8120', '--authtoken=2FRAcOboMuYRMzpSUy1kAkPVC70_6J3Dzfvoi4h3no3vMaR4q']);
 
+    const IPaddress =  ip.address();
+    console.log('MUST CONNECT TO: ' + IPaddress);
     if(hasFirebase && url[0] != '') {
-        setDoc(doc(db, "rig", ip.address()), {
+        setDoc(doc(db, "rig", IPaddress), {
             ip: url[0],
         }).then(() => {
             console.log('ip added: ', url[0]);
