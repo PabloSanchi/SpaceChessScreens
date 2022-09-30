@@ -11,6 +11,7 @@ import ip from "ip";
 import fetch from 'node-fetch';
 // var spawn = require('child_process').spawn;
 import { spawn } from 'child_process';
+import ngrok from 'ngrok';
 
 dotenv.config()
 
@@ -38,7 +39,8 @@ var io = new Server(http, {
 });
 
 // essentials
-var child, url = process.argv.slice(3);
+var child, url = '';
+var mode = process.argv.slice(3);
 var hasFirebase = true, fireApp, db;
 const __dirname = path.resolve();
 const port = 8120;
@@ -413,74 +415,61 @@ io.on('connect', socket => {
     @description launch -> launch tunnel between the localhost and internet
         and save the url in the database if possible
 */
-function launch() {
+async function launch() {
     // Create a child process
-    // child = spawn('ssh', ['-R', '80:localhost:8120', 'nokey@localhost.run']);
-    // child = spawn('ngrok', ['http', '8120', '--authtoken=2FRAcOboMuYRMzpSUy1kAkPVC70_6J3Dzfvoi4h3no3vMaR4q']);
-    // child = spawn('ngrok', ['http', '8120', '--authtoken=2FRAcOboMuYRMzpSUy1kAkPVC70_6J3Dzfvoi4h3no3vMaR4q']);
+    child = spawn('ssh', ['-R', '80:localhost:8120', 'nokey@localhost.run']);
+    console.log('mode: ' + mode + ' <-')
+    // NGROK MODE
+    if(mode == 'b') {
 
-    const IPaddress =  ip.address();
-    console.log('MUST CONNECT TO: ' + IPaddress);
-    if(hasFirebase && url[0] != '') {
-        setDoc(doc(db, "rig", IPaddress), {
-            ip: url[0],
-        }).then(() => {
-            console.log('ip added: ', url[0]);
-        }).catch(() => {
-            console.log('error');
+        await ngrok.authtoken('2FRAcOboMuYRMzpSUy1kAkPVC70_6J3Dzfvoi4h3no3vMaR4q');
+        url = await ngrok.connect(port);
+
+        const IPaddress =  ip.address();
+        console.log('MUST CONNECT TO: ' + IPaddress);
+        if(hasFirebase && url != '') {
+            setDoc(doc(db, "rig", IPaddress), {
+                ip: url,
+            }).then(() => {
+                console.log('ip added: ', url);
+            }).catch(() => {
+                console.log('error');
+            });
+        }
+
+    }else { // SSH TUNNEL MODE
+        // get output
+        child.stdout.on('data',
+            function (data) {
+                // get the provided url
+                var regexp = /.*tunneled with tls termination, https:\/\/.*/gi;
+                var matches_array = data.toString().match(regexp);
+                var str = matches_array.join('');
+                url = str.split(', ')[1];
+                console.log('launch url: ' + url);
+                
+        
+                const IPaddress =  ip.address();
+                console.log('MUST CONNECT TO: ' + IPaddress);
+                if(hasFirebase && url != '') {
+                    setDoc(doc(db, "rig", IPaddress), {
+                        ip: url,
+                    }).then(() => {
+                        console.log('ip added: ', url);
+                    }).catch(() => {
+                        console.log('error');
+                    });
+                }
+            });
+        
+        // display errors
+        child.stderr.on('data', (data) => {console.log(data.toString())});
+
+        // display command termination
+        child.on('close', function (code) {
+            console.log('child process killed');
         });
     }
-
-
-    // get output
-    // child.stdout.on('data',
-    //     function (data) {
-    //         // get the provided url
-    //         var regexp = /.*tunneled with tls termination, https:\/\/.*/gi;
-    //         var matches_array = data.toString().match(regexp);
-    //         var str = matches_array.join('');
-    //         url = str.split(', ')[1];
-    //         console.log('launch url: ' + url);
-            
-    //         if(hasFirebase) {
-    //             setDoc(doc(db, "rig", ip.address()), {
-    //                 ip: url,
-    //             }).then(() => {
-    //                 console.log('ip added: ', url);
-    //             }).catch(() => {
-    //                 console.log('error');
-    //             });
-    //         }
-    //     });
-
-    // child.stdout.on('data',
-    // function (data) {
-    //     console.log(data)
-    //     // get the provided url
-    //     var regexp = /.*Forwarding.*https:\/\/.*/gi;
-    //     var matches_array = data.toString().match(regexp);
-    //     var str = matches_array.join('');
-    //     // url = str.split(', ')[1];
-    //     console.log('launch url: ' + url);
-        
-    //     // if(hasFirebase) {
-    //     //     setDoc(doc(db, "rig", ip.address()), {
-    //     //         ip: url,
-    //     //     }).then(() => {
-    //     //         console.log('ip added: ', url);
-    //     //     }).catch(() => {
-    //     //         console.log('error');
-    //     //     });
-    //     // }
-    // });
-    
-    // // display errors
-    // child.stderr.on('data', (data) => {console.log(data.toString())});
-
-    // // display command termination
-    // child.on('close', function (code) {
-    //     console.log('child process killed');
-    // });
 }
 
 /**
@@ -507,23 +496,25 @@ try {
 // launch IP on start
 setTimeout(() => {launch()}, 1000);
 
-// // keep alive url by fetching it every 10 seconds
-// setTimeout(() => {
-//     setInterval(() => {
-//         fetch(url, {
-//             method: 'GET',
-//         })
-//         .then(res => res.json())
-//         .then(json => {
-//             console.log([new Date().getHours(), new Date().getMinutes(), new Date().getSeconds()].join(':'), json);
-//         })
-//         .catch(err => {
-//             console.log('no ssh port anymore, restarting...');
-//             if(child) child.kill();
-//             launch();
-//         });
-//     }, 10000);
-// }, 15000);
+// keep alive url by fetching it every 10 seconds
+if(mode != 'b') {
+    setTimeout(() => {
+        setInterval(() => {
+            fetch(url, {
+                method: 'GET',
+            })
+            .then(res => res.json())
+            .then(json => {
+                console.log([new Date().getHours(), new Date().getMinutes(), new Date().getSeconds()].join(':'), json);
+            })
+            .catch(err => {
+                console.log('no ssh port anymore, restarting...');
+                if(child) child.kill();
+                launch();
+            });
+        }, 10000);
+    }, 15000);
+}
 
 // start server on port 8120
 http.listen(port, () => {
