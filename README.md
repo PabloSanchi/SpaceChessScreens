@@ -100,7 +100,8 @@ NUMSCREEN is the number of screens that you want to use.***
 
 [1.0] Installation errors<br/>
 [2.0] Launch errors<br/>
-[3.0] Connecting issues
+[3.0] Connecting issues<br/>
+[4.0] Shh tunnel not working
 
 ### Solution
 [1.0]
@@ -117,6 +118,27 @@ If you are experiencing some errors while executing the `open-chess.sh` script, 
 
 [3.0]
 If you cannot connect using the rig modal on the web, [renember to ask the owners for the `.env` file](#env)
+
+[4.0]
+If the ssh tunnel is not working then swith to ngrok tunnel.
+Add a ```b``` next to the launch script
+
+```bash
+bash open-chess.sh b
+```
+OR
+```bash
+bash open-chess-aux.sh NUMSCREEN b
+```
+
+When using ngrok, you must access to the link before connecting, otherwise you wont be able to connect.
+To access the link, you can enter in your web browser 
+```
+http://MACHINE_IP:8120
+```
+That will show you the url you must access to. Copy it, and enter it in a new browser tab. You may need to accept some Chrome's warning and then hit the blue button that says `visit site`, after that you will be able to connect to the screen using the web controller by entering the MACHINE_IP
+
+MACHINE_IP is the IP of the master screen.
 
 
 ## Keyboard Controls (test only)
